@@ -1,0 +1,11 @@
+<br />
+<b>Fatal error</b>:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'newuser@gmail.com' for key 'users_email_unique' in /Users/midorikocak/Documents/src/today-api/src/Database.php:50
+Stack trace:
+#0 /Users/midorikocak/Documents/src/today-api/src/Database.php(50): PDOStatement-&gt;execute(Array)
+#1 /Users/midorikocak/Documents/src/today-api/src/User.php(72): MidoriKocak\Database-&gt;insert(Array, 'users')
+#2 /Users/midorikocak/Documents/src/today-api/src/App.php(81): MidoriKocak\User-&gt;save()
+#3 /Users/midorikocak/Documents/src/today-api/index.php(24): MidoriKocak\App-&gt;register('newuser@gmail.c...', 'pass', '$2y$10$IYI57Mgu...', 'kamil')
+#4 /Users/midorikocak/Documents/src/today-api/src/Api.php(28): {closure}()
+#5 [internal function]: MidoriKocak\Api-&gt;__destruct()
+#6 {main}
+  thrown in <b>/Users/midorikocak/Documents/src/today-api/src/Database.php</b> on line <b>50</b><br />

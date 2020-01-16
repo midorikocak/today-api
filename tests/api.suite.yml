@@ -1,0 +1,14 @@
+actor: ApiTester
+modules:
+    enabled:
+        - REST:
+              url: http://today-api.test/
+              depends: PhpBrowser
+              part: Json
+params:
+  email: "mtkocak@gmail.com"
+  username: "midorikocak"
+  password: "turgut"
+  email2: "newuser@gmail.com"
+  username2: "pass"
+  password2: "kamil"

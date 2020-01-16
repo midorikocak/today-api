@@ -1,0 +1,35 @@
+{
+  "name": "midorikocak/today-api",
+  "description": "Example API for Introductio to Coding Lecture",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "midorikocak",
+      "email": "mtkocak@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MidoriKocak\\": "src"
+    }
+  },
+  "scripts": {
+    "fix": "vendor/bin/ecs check src --set psr12 --fix",
+    "test": "vendor/bin/phpunit tests",
+    "codecept": "php vendor/bin/codecept run --steps",
+    "check:static": "vendor/bin/phpstan analyse src"
+  },
+  "require": {
+    "pds/skeleton": "@dev"
+  },
+  "require-dev": {
+    "codeception/codeception": "^4.0",
+    "phpunit/phpunit": "^8.5",
+    "phpstan/phpstan": "^0.12.5",
+    "symplify/easy-coding-standard": "^7.2",
+    "codeception/module-asserts": "^1.1",
+    "codeception/module-phpbrowser": "^1.0",
+    "codeception/module-rest": "^1.0"
+  }
+}
