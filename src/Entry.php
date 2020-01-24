@@ -18,11 +18,11 @@ class Entry
     /**
      * @var string
      */
-    private ?string $createdAt = null;
+    public ?string $createdAt = null;
     /**
      * @var string
      */
-    private ?string $updatedAt = null;
+    public ?string $updatedAt = null;
 
     /**
      * @var string
@@ -41,14 +41,14 @@ class Entry
         string $yesterday,
         string $today,
         string $blocker,
-        string $createdAt = '',
-        string $updatedAt = ''
+        ?string $createdAt = null,
+        ?string $updatedAt = null
     ) {
-        if ($createdAt == '') {
+        if (!$createdAt || $createdAt == '') {
             $createdAt = date('Y-m-d H:i:s');
         }
 
-        if ($updatedAt == '') {
+        if (!$updatedAt || $updatedAt == '') {
             $updatedAt = date('Y-m-d H:i:s');
         }
 

@@ -1,0 +1,6 @@
+tests/api/UsersTestCest.php:registerTest
+tests/api/EntriesTestCest.php:addEntryAndDeleteTest
+tests/api/EntriesTestCest.php:getEntryAndDeleteTest
+tests/api/EntriesTestCest.php:getNonExistentEntryTest
+tests/api/EntriesTestCest.php:getEntriesTest
+tests/api/EntriesTestCest.php:editEntryTest

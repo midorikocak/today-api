@@ -2,6 +2,7 @@
 
 use Codeception\Configuration;
 use Codeception\Util\HttpCode;
+use MidoriKocak\Database;
 
 class EntriesTestCest
 {
@@ -10,13 +11,14 @@ class EntriesTestCest
     private $password;
 
     private $entryData;
+    private $db;
+    private $userId;
+
 
     public function _before(ApiTester $I)
     {
         $config = Configuration::config();
         $apiSettings = Configuration::suiteSettings('api', $config);
-        $this->email = $apiSettings['params']['email'];
-        $this->password = $apiSettings['params']['password'];
 
         $this->entryData = [
             'userId' => 1,
@@ -24,7 +26,29 @@ class EntriesTestCest
             'today' => 'wrote syllabus',
             'blocker' => 'heartbroken'
         ];
+
+        $this->email = $apiSettings['params']['email'];
+        $this->username = $apiSettings['params']['username'];
+        $this->password = $apiSettings['params']['password'];
+
+        $userData = [
+            'username' => $this->username,
+            'email' => $this->email,
+            'password' => $this->password,
+            'passwordCheck' => $this->password,
+        ];
+
+        $userJson = json_encode($userData);
+        $I->sendPOST('/register', $userJson);
+        $response = json_decode($I->grabResponse(), true);
+        $id = $response['id'];
+
+        $db = new Database($apiSettings['params']['dbhost'],$apiSettings['params']['dbname'],$apiSettings['params']['dbuser'],$apiSettings['params']['dbpass']);
+        $this->db = $db;
+        $this->userId = $id;
     }
+
+
 
     public function addEntryAndDeleteTest(ApiTester $I)
     {

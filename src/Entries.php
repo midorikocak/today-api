@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MidoriKocak;
 
-use http\Exception\RuntimeException;
 use function array_key_exists;
 
 class Entries
@@ -61,6 +60,10 @@ class Entries
     {
         $entriesData = $this->db->find($userId, 'user_id', 'entries');
 
+        if (!$entriesData) {
+           return [];
+        }
+
         $entries = array_map(
             fn ($entryData) => Entry::fromArray($entryData),
             $entriesData
@@ -69,16 +72,103 @@ class Entries
         return $entries;
     }
 
+    public function week($userId)
+    {
+        $query = new Query();
+        $sevenDaysAgo = date('Y-m-d H:i:s', strtotime('-7 days'));
+        $query->select('entries')->where('user_id', $userId)->and(['created_at' => '>='.$sevenDaysAgo]);
+
+        $entriesData = $this->db->useQuery($query, true);
+
+        if (!$entriesData) {
+            return [];
+        }
+
+        $entries = array_map(
+            fn ($entryData) => Entry::fromArray($entryData),
+            $entriesData
+        );
+
+        return $entries;
+    }
+
+    public function month($userId)
+    {
+        $query = new Query();
+        $monthAgo = date('Y-m-d H:i:s', strtotime('-31 days'));
+        $query->select('entries')->where('user_id', $userId)->and(['created_at' => '>='.$monthAgo]);
+
+        $entriesData = $this->db->useQuery($query, true);
+
+        if (!$entriesData) {
+            return [];
+        }
+
+        $entries = array_map(
+            fn ($entryData) => Entry::fromArray($entryData),
+            $entriesData
+        );
+
+        return $entries;
+    }
+
+    public function yesterday($userId)
+    {
+        $query = new Query();
+        $yesterday = date('Y-m-d H:i:s', strtotime('yesterday'));
+        $today = date('Y-m-d H:i:s', strtotime('today'));
+        $query->select('entries')->where('user_id', $userId)
+            ->and(['created_at'=> '>'.$yesterday])
+            ->and(['created_at'=> '<'.$today]);
+
+        $entriesData = $this->db->useQuery($query, true);
+
+        if (!$entriesData) {
+            return [];
+        }
+
+        $entries = array_map(
+            fn ($entryData) => Entry::fromArray($entryData),
+            $entriesData
+        );
+
+        return $entries;
+    }
+
+    public function today($userId)
+    {
+        $query = new Query();
+        $today = date('Y-m-d H:i:s', strtotime('today'));
+        $query->select('entries')->where('user_id', $userId)
+            ->and(['created_at' => '>='.$today]);
+        $entriesData = $this->db->useQuery($query, true);
+
+        if (!$entriesData) {
+            return [];
+        }
+
+        $entries = array_map(
+            fn ($entryData) => Entry::fromArray($entryData),
+            $entriesData
+        );
+
+        return $entries;
+    }
+
+    public function search($term, $userId)
+    {
+        return [];
+    }
+
     public function findById(string $id): ?Entry
     {
         if ($this->entries) {
-            return $this->entries[$id] ?? null;
+            return $this->entries[$id];
         }
 
         $entryData = $this->db->show($id, 'entries');
-
         if (!$entryData) {
-            throw new \RuntimeException('NotFound');
+            throw new \Exception('NotFound');
         }
 
         $entry = Entry::fromArray($entryData);

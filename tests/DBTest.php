@@ -73,6 +73,18 @@ class DBTest extends TestCase
         $this->assertEquals($this->secondEntry, array_intersect($this->secondEntry, $lastEntry));
     }
 
+    public function testUseQuery(): void
+    {
+
+        $this->db->insert($this->secondEntry, $this->table);
+
+        $query = new Query();
+        $query->select('entries')->where('id', $this->db->lastInsertId());
+
+        $lastEntry = $this->db->useQuery($query);
+        $this->assertEquals($this->secondEntry, array_intersect($this->secondEntry, $lastEntry));
+    }
+
     public function testFind(): void
     {
         $this->db->insert($this->secondEntry, $this->table);

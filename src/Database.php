@@ -40,7 +40,7 @@ class Database
     public function insert(array $data, string $table): void
     {
         $keys = array_keys($data);
-        $params = array_map(fn ($key) => ':' . $key, $keys);
+        $params = array_map(fn ($key) => ':'.$key, $keys);
 
         $statementKeys = implode(',', $keys);
         $statementParams = implode(',', $params);
@@ -87,7 +87,7 @@ class Database
         }
 
         $keys = array_keys($data);
-        $params = array_map(fn ($key) => $key . '=:' . $key, $keys);
+        $params = array_map(fn ($key) => $key.'=:'.$key, $keys);
 
         $statementParams = implode(', ', $params);
 
@@ -105,4 +105,12 @@ class Database
     {
         return $this->db->query($query)->fetchAll();
     }
+
+    public function useQuery(Query $query, ?bool $all = null)
+    {
+        $statement = $this->db->prepare($query->getStatement());
+        $statement->execute($query->getParams());
+        return $all ? $statement->fetchAll() : $statement->fetch();
+    }
+
 }

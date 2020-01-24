@@ -1,0 +1,1 @@
+"SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'newuser@gmail.com' for key 'users_email_unique'"

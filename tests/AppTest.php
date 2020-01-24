@@ -82,9 +82,9 @@ final class AppTest extends TestCase
 
     public function testLoginNoUser()
     {
+        $this->expectException(\Exception::class);
         $this->db->insert($this->userData, 'users');
         $this->app->login('mtkocak@xx.com', '12345678');
-        $this->assertNull($this->app->user);
     }
 
     public function testGetMyEntries()
@@ -119,7 +119,7 @@ final class AppTest extends TestCase
         $this->app->entries->store($firstEntry);
         $this->app->entries->store($secondEntry);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\Exception::class);
         $this->app->getAllEntries();
     }
 

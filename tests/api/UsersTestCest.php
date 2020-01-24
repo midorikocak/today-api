@@ -5,6 +5,9 @@ use MidoriKocak\Database;
 
 class UsersTestCest
 {
+    private $db;
+    private $userId;
+
     private $email;
     private $username;
     private $password;
@@ -24,6 +27,10 @@ class UsersTestCest
         $this->email2 = $apiSettings['params']['email2'];
         $this->username2 = $apiSettings['params']['username2'];
         $this->password2 = $apiSettings['params']['password2'];
+
+        $this->db = new Database($apiSettings['params']['dbhost'],$apiSettings['params']['dbname'],$apiSettings['params']['dbuser'],$apiSettings['params']['dbpass']);
+        $this->db->query('TRUNCATE TABLE users');
+        $this->db->query('TRUNCATE TABLE entries');
     }
 
     // Login Test
@@ -44,9 +51,7 @@ class UsersTestCest
         $I->seeResponseContainsJson();
         $response = json_decode($I->grabResponse(), true);
         $id = $response['id'];
-
-        $db = new Database('localhost','today','root','turgut');
-        $db->delete($id, 'users');
+        $this->db->delete($id, 'users');
     }
 
 }
