@@ -20,11 +20,6 @@ class Api
     {
         $this->origin = '*';
         $this->responseCode = 200;
-
-        header("Access-Control-Allow-Origin: $this->origin");
-        header('Content-Type: application/json; charset=UTF-8');
-        header('Access-Control-Allow-Methods: OPTIONS, POST, GET, PUT, DELETE');
-        header('Access-Control-Allow-Headers: Authorization, Origin, X-Requested-With, Content-Type, Accept');
     }
 
     public function setPrefix(string $prefix)
@@ -57,7 +52,7 @@ class Api
 
     private function isOptions()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS' && $this->checkOrigin($this->origin)) {
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS' && $this->checkOrigin()) {
             header('Access-Control-Max-Age: 1728000');
             header('Content-Length: 0');
             header('Content-Type: text/plain');
@@ -82,6 +77,11 @@ class Api
 
     public function __destruct()
     {
+        header("Access-Control-Allow-Origin: $this->origin");
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Access-Control-Allow-Methods: OPTIONS, POST, GET, PUT, DELETE');
+        header('Access-Control-Allow-Headers: Authorization, Origin, X-Requested-With, Content-Type, Accept');
+
         $method = strtolower($_SERVER['REQUEST_METHOD']);
         if ($method == 'options') {
             $this->isOptions();
