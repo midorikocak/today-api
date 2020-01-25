@@ -16,7 +16,7 @@
   },
   "scripts": {
     "config": "cp .env.dist .env",
-    "pull": "git pull origin master && composer config",
+    "pull": "git pull origin master",
     "fix": "vendor/bin/ecs check src --set psr12 --fix",
     "test": "vendor/bin/phpunit tests",
     "codecept": "php vendor/bin/codecept run --steps",
