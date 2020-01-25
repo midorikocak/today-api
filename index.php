@@ -7,7 +7,15 @@ use MidoriKocak\Api;
 use MidoriKocak\App;
 use MidoriKocak\Database;
 
-$db = new Database('localhost', 'today', 'root', 'turgut');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$dbhost = getenv('DB_HOST');
+$dbname = getenv('DB_NAME');
+$dbuser = getenv('DB_USERNAME');
+$dbpass = getenv('DB_PASSWORD');
+
+$db = new Database($dbhost, $dbname, $dbuser, $dbpass);
 $app = new App($db);
 $api = new Api();
 
